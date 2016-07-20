@@ -1,0 +1,5 @@
+{
+    "project.name": "SentryUDPToHTTP",
+    "phabricator.uri": "https://phabricator.freelancer.com",
+    "unit.engine": "NoseTestEngine"
+}
