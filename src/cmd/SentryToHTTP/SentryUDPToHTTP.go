@@ -277,7 +277,8 @@ func main() {
 	}
 	defer ServerConn.Close()
 
-	buf := make([]byte, 4096)
+	// Make a large enough buffer to handle the practical limit of a UDP packet
+	buf := make([]byte, 65535)
 
 	for {
 		n, addr, err := ServerConn.ReadFromUDP(buf)
