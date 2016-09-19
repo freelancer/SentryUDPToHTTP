@@ -286,7 +286,7 @@ func main() {
 			fmt.Println("Failed during ReadFromUDP: ", err)
 			continue
 		}
+		log.Printf("Received Sentry message of %v bytes from %v", n, addr)
 		go decodeMessageAndPOST(buf[0:n])
-		fmt.Println("Received Sentry message from ", addr)
 	}
 }
