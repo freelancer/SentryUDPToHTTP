@@ -131,6 +131,8 @@ type Packet struct {
 	Modules     map[string]string      `json:"modules,omitempty"`
 	Fingerprint []string               `json:"fingerprint,omitempty"`
 	Extra       map[string]interface{} `json:"extra,omitempty"`
+	Exception   map[string]interface{} `json:"exception,omitempty"`  // This is additional and used by Python land
+	StackTrace  map[string]interface{} `json:"stacktrace,omitempty"` // This is additional and used by Python land
 
 	Interfaces []Interface `json:"-"`
 }
@@ -160,7 +162,7 @@ func decodeMessageAndPOST(data []byte) {
 	}
 
 	// Sentry sentry_timestamp=1466488750.79, sentry_client=raven-python/5.1.1, sentry_version=5, sentry_key=pubkey, sentry_secret=secret
-	// '{"project": "1", "sentry.interfaces.Message": {"message": "Shitballs", "params": []}, "server_name": "syd-nglynn-d", "extra": {"sys.argv": ["\'\'"]}, "event_id": "a6d60e1188b9419687d30b8523aa2539", "timestamp": "2016-06-21T05:32:10Z", "level": 40, "modules": {}, "time_spent": null, "platform": "python", "message": "Shitballs", "tags": {}}'
+	// '{"project": "1", "sentry.interfaces.Message": {"message": "Shartpants", "params": []}, "server_name": "syd-nglynn-d", "extra": {"sys.argv": ["\'\'"]}, "event_id": "a6d60e1188b9419687d30b8523aa2539", "timestamp": "2016-06-21T05:32:10Z", "level": 40, "modules": {}, "time_spent": null, "platform": "python", "message": "Shartpants", "tags": {}}'
 
 	// Try and get our data - it's base64 encoded :(
 	data, err := base64.StdEncoding.DecodeString(postedData[2])
@@ -186,6 +188,9 @@ func decodeMessageAndPOST(data []byte) {
 	w.Close()
 
 	var p Packet
+
+	// Uncomment here if you need to see the raw received JSON
+	// log.Println("Rx:", envData.String())
 
 	err = json.Unmarshal(envData.Bytes(), &p)
 	if err != nil {
